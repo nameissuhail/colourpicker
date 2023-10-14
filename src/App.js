@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import './color-picker.css';
+function ColorPicker() {
+  const [selectedColor, setSelectedColor] = useState('');
+  const [showColorList, setShowColorList] = useState(false);
 
-function App() {
+  const colors = ['red', 'blue', 'green', 'yellow', 'orange', 'pink', 'black', 'grey', 'violet']; // Sample array of colors
+
+  const handleButtonClick = () => {
+    setShowColorList(!showColorList);
+  };
+
+  const handleColorClick = (color) => {
+    setSelectedColor(color);
+    setShowColorList(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="color-picker">
+      <button onClick={handleButtonClick}>Pick a color</button>
+      <div className={`color-list ${showColorList ? 'show' : ''}`}>
+        {colors.map((color, index) => (
+          <div
+            key={index}
+            onClick={() => handleColorClick(color)}
+            className="color-square"
+            style={{ backgroundColor: color }}
+          ></div>
+        ))}
+      </div>
+      {selectedColor && (
+        <div className="selected-color" style={{ backgroundColor: selectedColor }}>
+          You picked {selectedColor}
+        </div>
+      )}
     </div>
   );
 }
 
-export default App;
+export default ColorPicker;
